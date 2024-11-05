@@ -20,7 +20,7 @@ int main() {
     hints.ai_socktype = SOCK_STREAM;
 
     // Get address info
-    result = getaddrinfo("www.example.com", "http", &hints, &res);
+    result = getaddrinfo("www.google.com", "http", &hints, &res);
     if (result != 0) {
         printf("getaddrinfo failed: %d\n", result);
         WSACleanup();
