@@ -1,17 +1,35 @@
-#include<winsock2.h>
-#include<stdio.h>
-struct addrinfo {
- int ai_flags;                           // AI_PASSIVE, AI_CANONNAME, etc.
- int ai_family;                          // AF_INET, AF_INET6, AF_UNSPEC
- int ai_socktype;                        // SOCK_STREAM, SOCK_DGRAM
- int ai_protocol;                        // use 0 for "any"
- size_t ai_addrlen;                      // size of ai_addr in bytes
- struct sockaddr *ai_addr;               // struct sockaddr_in or _in6
- char *ai_canonname;                     // full canonical hostname
- };
- struct addrinfo *ai_next;               // linked list, next node
-main(){
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <stdio.h>
+
+int main() {
     WSADATA wsaData;
-    WSAStartup(MAKEWORD(2,2),&wsaData);
-    getaddrinfo();
+    struct addrinfo hints, *res;
+    int result;
+
+    // Initialize Winsock
+    result = WSAStartup(MAKEWORD(2, 2), &wsaData);
+    if (result != 0) {
+        printf("WSAStartup failed: %d\n", result);
+        return 1;
+    }
+
+    // Setup the hints address info structure
+    memset(&hints, 0, sizeof hints);
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+
+    // Get address info
+    result = getaddrinfo("www.example.com", "http", &hints, &res);
+    if (result != 0) {
+        printf("getaddrinfo failed: %d\n", result);
+        WSACleanup();
+        return 1;
+    }
+
+    // Cleanup and exit
+    freeaddrinfo(res);
+    WSACleanup();
+
+    return 0;
 }
