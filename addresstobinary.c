@@ -19,25 +19,25 @@ int main() {
     result = inet_pton(AF_INET, "10.12.110.57", &(sa.sin_addr));
     if (result <= 0) {
         if (result == 0)
-            printf("Invalid IPv4 address\n");
+            printf("Invalid IPv4 address %d\n",result);
         else
             perror("inet_pton");
         WSACleanup();
         exit(EXIT_FAILURE);
     }
-    printf("IPv4 address converted successfully\n");
+    printf("IPv4 address converted successfully %d\n",result);
 
     // IPv6 Conversion
     result = inet_pton(AF_INET6, "2001:db8:63b3:1::3490", &(sa6.sin6_addr));
     if (result <= 0) {
         if (result == 0)
-            printf("Invalid IPv6 address\n");
+            printf("Invalid IPv6 address %d\n",result);
         else
             perror("inet_pton");
         WSACleanup();
         exit(EXIT_FAILURE);
     }
-    printf("IPv6 address converted successfully\n");
+    printf("IPv6 address converted successfully %d\n",result);
 
     WSACleanup();
     return 0;
